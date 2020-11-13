@@ -1,13 +1,19 @@
-package main.java.coach.trainer;
+package main.java.coach.classes.trainer;
 
+import javax.persistence.*;
+import java.util.UUID;
+
+@Entity
 public class Trainer {
-    private String id;
+
+    @Id
+    private UUID id;
     private String name;
     private String surname;
     private String password;
     private String email;
 
-    public Trainer(String id, String name, String surname, String password, String email) {
+    public Trainer(UUID id, String name, String surname, String password, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -19,7 +25,7 @@ public class Trainer {
 
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -39,7 +45,7 @@ public class Trainer {
         this.email = email;
     }
 
-    public String  getId() {
+    public UUID getId() {
         return id;
     }
 
