@@ -2,13 +2,10 @@ package main.java.coach.services.trainer;
 
 import main.java.coach.classes.trainer.Trainer;
 import main.java.coach.repositories.TrainerRepository;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TrainerServiceImplrements implements TrainerServiceInterface {
@@ -46,7 +43,14 @@ public class TrainerServiceImplrements implements TrainerServiceInterface {
     @Override
     public void updateTrainer(Long id, Trainer trainer) {
         Trainer trainerToUpdate = trainerRepository.findTrainerById(id);
+       /* trainerToUpdate.toBuilder()
+                .name(trainer.getName())
+                .email(trainer.getEmail())
+                .password(trainer.getPassword())
+                .surname(trainer.getSurname())
+                .build();
 
+        */
         trainerToUpdate.setName(trainer.getName());
         trainerToUpdate.setSurname(trainer.getSurname());
         trainerToUpdate.setPassword(trainer.getPassword());
