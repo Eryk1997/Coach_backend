@@ -1,22 +1,19 @@
 package main.java.coach.classes.trainer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Trainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String surname;
     private String password;
     private String email;
 
-    public Trainer(UUID id, String name, String surname, String password, String email) {
+    public Trainer(Long id, String name, String surname, String password, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -28,7 +25,7 @@ public class Trainer {
 
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,7 +45,7 @@ public class Trainer {
         this.email = email;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
