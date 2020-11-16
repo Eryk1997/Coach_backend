@@ -28,7 +28,7 @@ public class Trainer {
     private String surname;
 
     @NotBlank(message = "password is mandatory")
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 100)
     private String password;
 
     @NotBlank(message = "email is mandatory")

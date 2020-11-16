@@ -2,18 +2,22 @@ package main.java.coach.services.trainer;
 
 import main.java.coach.classes.trainer.Trainer;
 import main.java.coach.repositories.TrainerRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TrainerServiceImplrements implements TrainerServiceInterface {
+public class TrainerServiceImplements implements TrainerServiceInterface {
 
     private final TrainerRepository trainerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public TrainerServiceImplrements(TrainerRepository trainerRepository) {
+    public TrainerServiceImplements(TrainerRepository trainerRepository) {
         this.trainerRepository = trainerRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
@@ -36,28 +40,25 @@ public class TrainerServiceImplrements implements TrainerServiceInterface {
 
     @Override
     public void addTrainer(Trainer trainer) {
-        trainerRepository.save(trainer);
+        trainerRepository.save(trainer
+                .toBuilder()
+                .name(trainer.getName())
+                .surname(trainer.getSurname())
+                .password(passwordEncoder.encode(trainer.getPassword()))
+                .email(trainer.getEmail())
+                .build());
     }
 
 
     @Override
     public void updateTrainer(Long id, Trainer trainer) {
-        Trainer trainerToUpdate = trainerRepository.findTrainerById(id);
-       /* trainerToUpdate.toBuilder()
+        trainerRepository.save(trainerRepository.findTrainerById(id)
+                .toBuilder()
                 .name(trainer.getName())
-                .email(trainer.getEmail())
-                .password(trainer.getPassword())
                 .surname(trainer.getSurname())
-                .build();
-
-        */
-        trainerToUpdate.setName(trainer.getName());
-        trainerToUpdate.setSurname(trainer.getSurname());
-        trainerToUpdate.setPassword(trainer.getPassword());
-        trainerToUpdate.setEmail(trainer.getEmail());
-        trainerRepository.save(trainerToUpdate);
-
-
+                .password(passwordEncoder.encode(trainer.getPassword()))
+                .email(trainer.getEmail())
+                .build());
     }
 
 
