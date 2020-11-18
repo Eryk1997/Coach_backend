@@ -23,10 +23,6 @@ public class TrainerController {
         return trainerServiceInterface.selectAllTrainers();
     }
 
-    @GetMapping("/trainer/{id}")
-    public Trainer getTrainer(@PathVariable Long id) {
-        return trainerServiceInterface.getTrainer(id);
-    }
 
     @DeleteMapping("/trainer/{id}")
     public ResponseEntity<String> deleteTrainer(@PathVariable Long id){
@@ -40,12 +36,16 @@ public class TrainerController {
         return ResponseEntity.ok("Trainer is added");
     }
 
+
     @PutMapping("/trainers/{id}")
     public ResponseEntity<String> updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer){
         trainerServiceInterface.updateTrainer(id,trainer);
         return ResponseEntity.ok("Trainer is updated");
     }
 
-
+    @GetMapping("/trainer/{id}")
+    public Trainer getTrainer(@PathVariable Long id){
+        return trainerServiceInterface.getTrainer(id);
+    }
 
 }

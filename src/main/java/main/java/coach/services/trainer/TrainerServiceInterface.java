@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TrainerServiceInterface {
     List<Trainer> selectAllTrainers();
+
     Trainer getTrainer(Long id);
     void deleteTrainer(Long id);
     void addTrainer(Trainer trainer);
