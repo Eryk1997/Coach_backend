@@ -3,6 +3,7 @@ package main.java.coach.controllers;
 import main.java.coach.classes.trainer.Trainer;
 import main.java.coach.services.trainer.TrainerServiceInterface;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,16 +32,14 @@ public class TrainerController {
     }
 
     @PostMapping("/trainers")
-    public ResponseEntity<String> addTrainer(@Valid @RequestBody Trainer trainer) {
-        trainerServiceInterface.addTrainer(trainer);
-        return ResponseEntity.ok("Trainer is added");
+    public List<String> addTrainer(@Valid @RequestBody Trainer trainer) {
+        return trainerServiceInterface.addTrainer(trainer);
     }
 
 
     @PutMapping("/trainers/{id}")
-    public ResponseEntity<String> updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer){
-        trainerServiceInterface.updateTrainer(id,trainer);
-        return ResponseEntity.ok("Trainer is updated");
+    public List<String> updateTrainer(@PathVariable Long id, @RequestBody Trainer trainer){
+        return trainerServiceInterface.updateTrainer(id,trainer);
     }
 
     @GetMapping("/trainer/{id}")
@@ -48,4 +47,8 @@ public class TrainerController {
         return trainerServiceInterface.getTrainer(id);
     }
 
+    @GetMapping(value = "/trainers/{email:.+}")
+    public UserDetails getUserByName(@PathVariable(value = "email") String email) {
+        return trainerServiceInterface.getTrainer(email);
+    }
 }

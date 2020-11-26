@@ -2,12 +2,17 @@ package main.java.coach.services.trainer;
 
 import main.java.coach.classes.trainer.Trainer;
 import main.java.coach.repositories.TrainerRepository;
+import main.java.coach.services.trainer.availability.checkers.TrainerAvailabilityChecker;
+import main.java.coach.services.trainer.validator.AddTrainerValidator;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainerServiceImplements implements TrainerServiceInterface {
@@ -39,28 +44,47 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
     }
 
     @Override
-    public void addTrainer(Trainer trainer) {
-        trainerRepository.save(trainer
-                .toBuilder()
-                .name(trainer.getName())
-                .surname(trainer.getSurname())
-                .password(passwordEncoder.encode(trainer.getPassword()))
-                .email(trainer.getEmail())
-                .build());
+    public List<String> addTrainer(Trainer trainer) {
+        AddTrainerValidator validator = new AddTrainerValidator();
+        TrainerAvailabilityChecker checker = new TrainerAvailabilityChecker(trainerRepository);
+        List<String> messages = validator.validate(trainer);
+        messages.addAll(checker.check(trainer));
+        if (messages.isEmpty()){
+            trainerRepository.save(trainer
+                    .toBuilder()
+                    .name(trainer.getName())
+                    .surname(trainer.getSurname())
+                    .password(passwordEncoder.encode(trainer.getPassword()))
+                    .email(trainer.getEmail())
+                    .build());
+            messages.add("add Trainer");
+        }
+        return messages;
     }
 
 
     @Override
-    public void updateTrainer(Long id, Trainer trainer) {
-        trainerRepository.save(trainerRepository.findTrainerById(id)
-                .toBuilder()
-                .name(trainer.getName())
-                .surname(trainer.getSurname())
-                .password(passwordEncoder.encode(trainer.getPassword()))
-                .email(trainer.getEmail())
-                .build());
+    public List<String> updateTrainer(Long id, Trainer trainer) {
+        AddTrainerValidator validator = new AddTrainerValidator();
+        List<String> messages = validator.validate(trainer);
+        if (messages.isEmpty()) {
+            trainerRepository.save(trainerRepository.findTrainerById(id)
+                    .toBuilder()
+                    .name(trainer.getName())
+                    .surname(trainer.getSurname())
+                    .password(passwordEncoder.encode(trainer.getPassword()))
+                    .email(trainer.getEmail())
+                    .build());
+            messages.add("update Trainer");
+        }
+        return messages;
     }
 
+    @Override
+    public UserDetails getTrainer(String email) throws UsernameNotFoundException  {
+        Optional<Trainer> trainer = trainerRepository.findTrainerByEmail(email);
+        return trainer.orElseThrow(()-> new UsernameNotFoundException("Not found: " + email));
+    }
 
 
 }

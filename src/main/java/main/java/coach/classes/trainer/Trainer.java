@@ -26,20 +26,15 @@ public class Trainer implements UserDetails{
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
-    @Size(min = 1, max = 50)
     private String name;
 
     @NotBlank(message = "surname is mandatory")
-    @Size(min = 1, max = 50)
     private String surname;
 
     @NotBlank(message = "password is mandatory")
-    @Size(min = 1, max = 100)
     private String password;
 
     @NotBlank(message = "email is mandatory")
-    @Size(min = 1, max = 50)
-    @Email
     private String email;
 
 

@@ -50,9 +50,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers( "/**").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
@@ -66,7 +65,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers(HttpMethod.POST, "/trainers");
+                .antMatchers(HttpMethod.POST, "/trainers")
+        ;
     }
 
     @Override
