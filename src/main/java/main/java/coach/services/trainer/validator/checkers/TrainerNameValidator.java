@@ -6,7 +6,7 @@ public class TrainerNameValidator implements ITrainerAttributesValidator{
     @Override
     public String validate(Trainer trainer) {
         String attribute = trainer.getName();
-        if (attribute.length() > 30){
+        if (attribute.length() > 50){
             return "name is too long";
         }
         else if(attribute.length() < 3){

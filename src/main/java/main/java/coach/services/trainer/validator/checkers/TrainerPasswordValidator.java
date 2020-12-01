@@ -6,7 +6,7 @@ public class TrainerPasswordValidator implements ITrainerAttributesValidator {
     @Override
     public String validate(Trainer trainer) {
         String attribute = trainer.getPassword();
-        if(attribute.length() > 71){
+        if(attribute.length() > 100){
             return "password is too long";
         } else if(attribute.length() < 3) {
             return "password is too short";
