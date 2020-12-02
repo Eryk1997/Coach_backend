@@ -2,8 +2,8 @@ package main.java.coach.services.trainer;
 
 import main.java.coach.classes.trainer.Trainer;
 import main.java.coach.repositories.TrainerRepository;
-import main.java.coach.services.trainer.availability.checkers.TrainerAvailabilityChecker;
-import main.java.coach.services.trainer.validator.AddTrainerValidator;
+import main.java.coach.validator.attributes.trainer.TrainerAttributesValidator;
+import main.java.coach.validator.availability.trainer.TrainerAvailabilityValidator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,9 +19,13 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
 
     private final TrainerRepository trainerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TrainerAttributesValidator trainerAttributesValidator;
+    private final TrainerAvailabilityValidator trainerAvailabilityValidator;
 
-    public TrainerServiceImplements(TrainerRepository trainerRepository) {
+    public TrainerServiceImplements(TrainerRepository trainerRepository, TrainerAttributesValidator trainerAttributesValidator, TrainerAvailabilityValidator trainerAvailabilityValidator) {
         this.trainerRepository = trainerRepository;
+        this.trainerAttributesValidator = trainerAttributesValidator;
+        this.trainerAvailabilityValidator = trainerAvailabilityValidator;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -33,9 +37,9 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
     }
 
     @Override
-    public Trainer getTrainer(Long id) {
-        Trainer trainer = trainerRepository.findTrainerById(id);
-        return trainer;
+    public UserDetails getTrainer(Long id) {
+        Optional<Trainer> trainer = trainerRepository.findTrainerById(id);
+        return trainer.orElseThrow(() -> new UsernameNotFoundException("Not found: " + id));
     }
 
     @Override
@@ -45,11 +49,9 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
 
     @Override
     public List<String> addTrainer(Trainer trainer) {
-        AddTrainerValidator validator = new AddTrainerValidator();
-        TrainerAvailabilityChecker checker = new TrainerAvailabilityChecker(trainerRepository);
-        List<String> messages = validator.validate(trainer);
-        messages.addAll(checker.check(trainer));
-        if (messages.isEmpty()){
+        List<String> messages = trainerAttributesValidator.validate(trainer);
+        messages.addAll(trainerAvailabilityValidator.validate(trainer));
+        if (messages.isEmpty()) {
             trainerRepository.save(trainer
                     .toBuilder()
                     .name(trainer.getName())
@@ -64,10 +66,9 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
 
     @Override
     public List<String> updateTrainer(Long id, Trainer trainer) {
-        AddTrainerValidator validator = new AddTrainerValidator();
-        List<String> messages = validator.validate(trainer);
+        List<String> messages = trainerAttributesValidator.validate(trainer);
         if (messages.isEmpty()) {
-            trainerRepository.save(trainerRepository.findTrainerById(id)
+            trainerRepository.save(trainerRepository.findTrainerById(id).orElse(null)
                     .toBuilder()
                     .name(trainer.getName())
                     .surname(trainer.getSurname())
@@ -80,9 +81,9 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
     }
 
     @Override
-    public UserDetails getTrainer(String email) throws UsernameNotFoundException  {
+    public UserDetails getTrainer(String email) throws UsernameNotFoundException {
         Optional<Trainer> trainer = trainerRepository.findTrainerByEmail(email);
-        return trainer.orElseThrow(()-> new UsernameNotFoundException("Not found: " + email));
+        return trainer.orElseThrow(() -> new UsernameNotFoundException("Not found: " + email));
     }
 
 

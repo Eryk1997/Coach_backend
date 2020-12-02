@@ -8,8 +8,7 @@ import java.util.Optional;
 
 public interface TrainerServiceInterface {
     List<Trainer> selectAllTrainers();
-
-    Trainer getTrainer(Long id);
+    UserDetails getTrainer(Long id);
     void deleteTrainer(Long id);
     List<String> addTrainer(Trainer trainer);
     List<String> updateTrainer(Long id,Trainer trainer);

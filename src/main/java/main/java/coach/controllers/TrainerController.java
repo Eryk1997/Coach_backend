@@ -43,7 +43,7 @@ public class TrainerController {
     }
 
     @GetMapping("/trainer/{id}")
-    public Trainer getTrainer(@PathVariable Long id){
+    public UserDetails getTrainer(@PathVariable Long id){
         return trainerServiceInterface.getTrainer(id);
     }
 
