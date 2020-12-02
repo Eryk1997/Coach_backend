@@ -32,5 +32,6 @@ public interface ErrorValidator {
 
     String NOT_AVAILABLE_EMAIL_MESSAGE = "email already exists";
 
+    String NOT_FOUND_EXERCISE = "Not found exercise";
     String NOT_FOUND_PUPIL = "Not found pupil";
 }
