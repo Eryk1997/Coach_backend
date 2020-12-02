@@ -1,16 +1,17 @@
 package main.java.coach.services.trainer;
 
 import main.java.coach.classes.trainer.Trainer;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainerServiceInterface {
-    //work
     List<Trainer> selectAllTrainers();
-    Trainer getTrainer(Long id);
+    UserDetails getTrainer(Long id);
     void deleteTrainer(Long id);
-    void addTrainer(Trainer trainer);
-
-    void updateTrainer(Long id,Trainer trainer);
+    List<String> addTrainer(Trainer trainer);
+    List<String> updateTrainer(Long id,Trainer trainer);
+    UserDetails getTrainer(String email);
 
 }
