@@ -102,7 +102,6 @@ public class PupilServiceImplements implements PupilServiceInterface {
                     .weight(pupil.getWeight())
                     .email(pupil.getEmail())
                     .build());
-            messgage.add("Update pupil");
         }
         return messgage;
     }

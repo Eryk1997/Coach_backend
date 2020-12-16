@@ -9,6 +9,7 @@ public interface ErrorValidator {
     String EMPTY_WEIGHT_MESSAGE = "Weight cannot be empty";
     String EMPTY_AGE_MESSAGE = "Age cannot be empty";
     String EMPTY_ID_TRAINER_MESSAGE = "Id_trainer cannot be empty";
+    String EMPTY_NUMBER_OF_REPETITIONS_MESSAGE = "number_of_repetitions cannot be empty";
 
     String NAME_IS_TOO_SHORT = "name is too short";
     String NAME_IS_TOO_LONG = "name is too long";
@@ -22,6 +23,9 @@ public interface ErrorValidator {
     String WEIGHT_IS_TOO_LONG = "weight is too long";
     String AGE_IS_TOO_SHORT = "age is too short";
     String AGE_IS_TOO_LONG = "age is too long";
+    String EMPTY_NUMBER_OF_REPETITIONS_IS_TOO_SHORT = "number_of_repetitions is too short";
+    String EMPTY_NUMBER_OF_REPETITIONS_IS_TOO_LONG = "number_of_repetitions is too long";
+
 
     String INCORRECT_EMAIL_ADDRESS = "incorrect email address";
 
