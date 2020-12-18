@@ -31,9 +31,13 @@ public class TrainingController {
         trainingServiceInterface.deleteTraining(id);
     }
 
-    @PostMapping("/addTraining")
-    public List<String> addTraining(@Valid @RequestBody Training training, @AuthenticationPrincipal Trainer trainer){
-        return trainingServiceInterface.addTraining(training,trainer);
+    @PostMapping("/addTraining/{id_pupil}")
+    public List<String> addTraining(@Valid @RequestBody Training training, @AuthenticationPrincipal Trainer trainer, @PathVariable Long id_pupil) {
+        return trainingServiceInterface.addTraining(training, trainer, id_pupil);
     }
 
+    @GetMapping("/getAllTrainingsByIdPupil/{id}")
+    public List<Training> findTrainingsByIdPupil(@PathVariable Long id){
+        return trainingServiceInterface.findTrainingsByIdPupil(id);
+    }
 }

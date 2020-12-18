@@ -12,5 +12,6 @@ import java.util.List;
 public interface TrainingServiceInterface {
     List<Training> findAllTrainings();
     void deleteTraining(Long id);
-    List<String> addTraining(Training training, Trainer trainer);
+    List<String> addTraining(Training training, Trainer trainer, Long id_pupil);
+    List<Training> findTrainingsByIdPupil(Long id_pupil);
 }

@@ -47,8 +47,8 @@ public class PupilServiceImplements implements PupilServiceInterface {
 
     @Override
     public Pupil getPupil(Long id) {
-        Optional<Pupil> pupil = pupilRepository.findPupilById(id);
-        return pupil.orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_PUPIL));
+        Pupil pupil = pupilRepository.findPupilById(id);
+        return pupil;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PupilServiceImplements implements PupilServiceInterface {
         if (message.isEmpty()) {
             pupilRepository.save(pupil
                     .toBuilder()
-                    .id_trainer(trainer.getId())
+                    .trainer(trainer)
                     .build()
             );
         }
@@ -84,7 +84,7 @@ public class PupilServiceImplements implements PupilServiceInterface {
     public boolean deletePupilById(Long id_pupil, Trainer trainer) {
         if (trainer == null)
             return false;
-        pupilRepository.findPupilById(id_pupil).orElse(null);
+        pupilRepository.findPupilById(id_pupil);
         pupilRepository.deleteById(id_pupil);
         return true;
     }
@@ -93,7 +93,7 @@ public class PupilServiceImplements implements PupilServiceInterface {
     public List<String> updatePupil(Long id_pupil, Pupil pupil) {
         List<String> messgage = pupilAttributesValidator.validate(pupil);
         if (messgage.isEmpty()){
-            pupilRepository.save(pupilRepository.findPupilById(id_pupil).orElse(null)
+            pupilRepository.save(pupilRepository.findPupilById(id_pupil)
                     .toBuilder()
                     .name(pupil.getName())
                     .surname(pupil.getSurname())

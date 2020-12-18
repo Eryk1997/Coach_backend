@@ -1,16 +1,18 @@
 package main.java.coach.classes.trainer;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import main.java.coach.classes.pupil.Pupil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -18,23 +20,28 @@ import java.util.Collection;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "trainer")
 public class Trainer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotBlank(message = "Name is mandatory")
+    @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "surname is mandatory")
+    @Column(name = "surname")
     private String surname;
 
-    @NotBlank(message = "password is mandatory")
+    @Column(name = "password")
     private String password;
 
-    @NotBlank(message = "email is mandatory")
+    @Column(name = "email")
     private String email;
 
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private Set<Pupil> pupils;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

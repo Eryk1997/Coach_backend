@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface TrainingRepository extends CrudRepository<Training, Long> {
     Optional<Training> findById(Long id);
-
-    Optional<Training> findTrainingByPupil_Id(Long id);
+    Optional<Training> findAllByPupil_Id(Long id_pupil);
 }
