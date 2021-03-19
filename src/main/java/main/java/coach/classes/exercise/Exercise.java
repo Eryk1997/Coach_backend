@@ -1,11 +1,11 @@
 package main.java.coach.classes.exercise;
 
 import lombok.*;
+import main.java.coach.classes.pupil.Pupil;
+import main.java.coach.classes.training.Training;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,11 +13,15 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Builder(toBuilder = true)
+@Table(name = "exercise")
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @Column(name = "name")
     private String name;
+
 
 }

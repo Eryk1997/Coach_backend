@@ -13,5 +13,4 @@ public interface TrainerServiceInterface {
     List<String> addTrainer(Trainer trainer);
     List<String> updateTrainer(Long id,Trainer trainer);
     UserDetails getTrainer(String email);
-
 }

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PupilRepository extends CrudRepository<Pupil, Long> {
-    Optional<Pupil> findPupilById(Long id);
+    Pupil findPupilById(Long id);
     Optional<Pupil> findPupilsByEmail(String email);
 }

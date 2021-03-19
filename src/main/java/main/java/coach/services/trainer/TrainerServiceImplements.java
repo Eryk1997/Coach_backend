@@ -75,7 +75,6 @@ public class TrainerServiceImplements implements TrainerServiceInterface {
                     .password(passwordEncoder.encode(trainer.getPassword()))
                     .email(trainer.getEmail())
                     .build());
-            messages.add("update Trainer");
         }
         return messages;
     }
